@@ -1,6 +1,128 @@
 {
   "store": "DEFAULT",
   "lang": "en",
-  "searchKeyword": "Chair",
-  "productSkus": ["chair1", "chair2", "chair3"]
+  "category": "chairs",
+  "searchKeyword": "Seed Chair",
+  "products": [
+    {
+      "name": "Seed Chair 01",
+      "sku": "seed-chair-01",
+      "price": 109,
+      "sortOrder": 401
+    },
+    {
+      "name": "Seed Chair 02",
+      "sku": "seed-chair-02",
+      "price": 119,
+      "sortOrder": 402
+    },
+    {
+      "name": "Seed Chair 03",
+      "sku": "seed-chair-03",
+      "price": 129,
+      "sortOrder": 403
+    },
+    {
+      "name": "Seed Chair 04",
+      "sku": "seed-chair-04",
+      "price": 139,
+      "sortOrder": 404
+    },
+    {
+      "name": "Seed Chair 05",
+      "sku": "seed-chair-05",
+      "price": 149,
+      "sortOrder": 405
+    },
+    {
+      "name": "Seed Chair 06",
+      "sku": "seed-chair-06",
+      "price": 159,
+      "sortOrder": 406
+    },
+    {
+      "name": "Seed Chair 07",
+      "sku": "seed-chair-07",
+      "price": 169,
+      "sortOrder": 407
+    },
+    {
+      "name": "Seed Chair 08",
+      "sku": "seed-chair-08",
+      "price": 179,
+      "sortOrder": 408
+    },
+    {
+      "name": "Seed Chair 09",
+      "sku": "seed-chair-09",
+      "price": 189,
+      "sortOrder": 409
+    },
+    {
+      "name": "Seed Chair 10",
+      "sku": "seed-chair-10",
+      "price": 199,
+      "sortOrder": 410
+    },
+    {
+      "name": "Seed Chair 11",
+      "sku": "seed-chair-11",
+      "price": 209,
+      "sortOrder": 411
+    },
+    {
+      "name": "Seed Chair 12",
+      "sku": "seed-chair-12",
+      "price": 219,
+      "sortOrder": 412
+    },
+    {
+      "name": "Seed Chair 13",
+      "sku": "seed-chair-13",
+      "price": 229,
+      "sortOrder": 413
+    },
+    {
+      "name": "Seed Chair 14",
+      "sku": "seed-chair-14",
+      "price": 239,
+      "sortOrder": 414
+    },
+    {
+      "name": "Seed Chair 15",
+      "sku": "seed-chair-15",
+      "price": 249,
+      "sortOrder": 415
+    },
+    {
+      "name": "Seed Chair 16",
+      "sku": "seed-chair-16",
+      "price": 259,
+      "sortOrder": 416
+    },
+    {
+      "name": "Seed Chair 17",
+      "sku": "seed-chair-17",
+      "price": 269,
+      "sortOrder": 417
+    },
+    {
+      "name": "Seed Chair 18",
+      "sku": "seed-chair-18",
+      "price": 279,
+      "sortOrder": 418
+    },
+    {
+      "name": "Seed Chair 19",
+      "sku": "seed-chair-19",
+      "price": 289,
+      "sortOrder": 419
+    },
+    {
+      "name": "Seed Chair 20",
+      "sku": "seed-chair-20",
+      "price": 299,
+      "sortOrder": 420
+    }
+  ]
 }
