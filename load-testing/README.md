@@ -156,9 +156,9 @@ Sau khi cài đặt, mở terminal mới và kiểm tra:
 k6 version
 ```
 
-## 7. Chạy kịch bản kiểm thử tải
+## 5. Chạy kịch bản kiểm thử tải
 
-### 7.1. Cấu hình biến môi trường
+### 5.1. Cấu hình biến môi trường
 
 macOS/Linux:
 
@@ -178,7 +178,7 @@ $env:LANG="en"
 $env:PAGE_SIZE="20"
 ```
 
-### 7.2. Chạy các kịch bản kiểm thử
+### 5.2. Chạy các kịch bản kiểm thử
 
 ```bash
 k6 run ./load-testing/scripts/nfr01-product-list.js
