@@ -181,9 +181,9 @@ $env:PAGE_SIZE="20"
 ### 7.2. Chạy các kịch bản kiểm thử
 
 ```bash
-k6 run <./load-testing/scripts/nfr01-product-list.js>
+k6 run ./load-testing/scripts/nfr01-product-list.js
 ```
 
 ```bash
-k6 run <./load-testing/scripts/nfr02-product-list.js>
+k6 run ./load-testing/scripts/nfr02-product-flow.js
 ```
