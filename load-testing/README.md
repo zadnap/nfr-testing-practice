@@ -11,7 +11,7 @@ cd nfr-testing-practice
 
 ### 1.2. Cài đặt Java
 
-Shopizer 3.2.5 sử dụng Java 17.
+Dùng JDK 17 cho quy trình kiểm thử này.
 
 Kiểm tra phiên bản Java:
 
@@ -26,9 +26,9 @@ Nếu chưa cài đặt, có thể tải JDK 17 từ:
 - Eclipse Temurin: https://adoptium.net/
 - Oracle JDK: https://www.oracle.com/java/technologies/downloads/
 
-### 1.3. Kiểm tra Maven Wrapper
+### 1.3. Kiểm tra Maven
 
-Repository đã có Maven Wrapper (`mvnw`), do đó không cần cài Maven riêng.
+Trên Windows, dùng Apache Maven 3.9.x để tránh lỗi `MavenWrapperMain` của Wrapper cũ khi đường dẫn dự án có dấu cách. Kiểm tra `mvn -v` để xác nhận Maven đang dùng JDK 17.
 
 Trên macOS/Linux, nếu gặp lỗi permission:
 
@@ -45,19 +45,7 @@ Kiểm tra Maven Wrapper:
 Trên Windows:
 
 ```powershell
-.\mvnw.cmd -version
-```
-
-### 1.4. Build dự án
-
-```bash
-./mvnw clean install -DskipTests
-```
-
-Trên Windows:
-
-```powershell
-.\mvnw.cmd clean install -DskipTests
+mvn -v
 ```
 
 ## 2. Cấu hình H2 Database
@@ -100,43 +88,29 @@ db.minPoolSize=4
 db.maxPoolSize=4
 ```
 
-## 3. Khởi chạy Shopizer
+### 2.3. Build dự án
 
-### 3.1. Chạy ứng dụng
-
-Di chuyển vào thư mục `sm-shop`:
+Sau khi tạo cấu hình H2, chạy từ thư mục gốc.
 
 ```bash
-cd sm-shop
+./mvnw clean install -DskipTests
 ```
 
-Khởi chạy Spring Boot:
-
-```bash
-../mvnw spring-boot:run
-```
-
-Trên Windows:
+Trên Windows với Maven 3.9.x.
 
 ```powershell
-..\mvnw.cmd spring-boot:run
+mvn clean install '-DskipTests'
 ```
 
-### 3.2. Kiểm tra ứng dụng
+## 3. Cài đặt k6
 
-```bash
-curl -I http://localhost:8080
-```
-
-## 4. Cài đặt k6
-
-### 4.1. macOS
+### 3.1. macOS
 
 ```bash
 brew install k6
 ```
 
-### 4.2. Windows
+### 3.2. Windows
 
 Có thể cài đặt bằng Winget:
 
@@ -156,34 +130,58 @@ Sau khi cài đặt, mở terminal mới và kiểm tra:
 k6 version
 ```
 
-## 5. Chạy kịch bản kiểm thử tải
+## 4. Khởi chạy Shopizer và kiểm tra dữ liệu
+
+File H2 `sm-shop/SALESMANAGER.h2.db` trong repository đã có 20 sản phẩm `Seed Chair`. Từ thư mục gốc trên PowerShell, sao chép JAR đã build ở bước 2.3 và file H2 vào thư mục tạm rồi khởi động Shopizer.
+
+```powershell
+$shopizerRun = Join-Path $env:TEMP ('shopizer-demo-' + [guid]::NewGuid().ToString('N'))
+New-Item -ItemType Directory -Path $shopizerRun | Out-Null
+Copy-Item -LiteralPath './sm-shop/target/shopizer.jar','./sm-shop/SALESMANAGER.h2.db' -Destination $shopizerRun
+Set-Location $shopizerRun
+java -jar shopizer.jar --server.address=127.0.0.1
+```
+
+Mở terminal thứ hai trong thư mục gốc để kiểm tra ba API.
+
+```powershell
+$catalog = 'http://localhost:8080/api/v1/products?store=DEFAULT&lang=en&page=0&count=20'
+(Invoke-RestMethod $catalog).products.Count
+$search = Invoke-RestMethod "$catalog&name=Seed%20Chair"
+$sku = $search.products[0].sku
+(Invoke-RestMethod "http://localhost:8080/api/v2/product/${sku}?store=DEFAULT&lang=en").sku
+```
+
+Danh sách cần trả về 20 sản phẩm. Tìm kiếm cần trả về ít nhất một sản phẩm phù hợp và SKU ở API chi tiết phải bằng `$sku`. Với một cơ sở dữ liệu H2 mới, dữ liệu nguồn nằm trong `load-testing/data/products.json`. Có thể nạp bằng `bash ./load-testing/scripts/seed-products.sh` trong Git Bash với `jq`, `curl` và biến `SHOPIZER_TOKEN` chứa token quản trị của môi trường thử nghiệm.
+
+## 5. Chạy k6 và lưu kết quả
 
 ### 5.1. Cấu hình biến môi trường
 
-macOS/Linux:
-
-```bash
-export BASE_URL="http://localhost:8080"
-export STORE="DEFAULT"
-export LANG="en"
-export PAGE_SIZE=20
-```
-
-Windows PowerShell:
-
-```powershell
-$env:BASE_URL="http://localhost:8080"
-$env:STORE="DEFAULT"
-$env:LANG="en"
-$env:PAGE_SIZE="20"
-```
+Script mặc định dùng `http://localhost:8080`, cửa hàng `DEFAULT`, ngôn ngữ `en`, 20 sản phẩm mỗi trang và từ khóa `Seed Chair`. Có thể đổi qua `BASE_URL`, `STORE`, `SHOPIZER_LANG`, `PAGE_SIZE` và `SEARCH_KEYWORDS`.
 
 ### 5.2. Chạy các kịch bản kiểm thử
 
-```bash
-k6 run ./load-testing/scripts/nfr01-product-list.js
+Chạy nhanh với 1 người dùng ảo trong 5 giây để kiểm tra kết nối và phản hồi.
+
+```powershell
+$env:BASE_URL = 'http://127.0.0.1:8080'
+k6 run --vus 1 --duration 5s ./load-testing/scripts/nfr01-product-list.js
+k6 run --vus 1 --duration 5s ./load-testing/scripts/nfr02-product-flow.js
 ```
 
-```bash
-k6 run ./load-testing/scripts/nfr02-product-flow.js
+Chạy chính thức từng lệnh theo thứ tự. Mỗi kịch bản mặc định dùng 20 người dùng ảo trong 3 phút. Hai file JSON được ghi vào thư mục hiện tại.
+
+```powershell
+k6 run --summary-export nfr01-summary.json ./load-testing/scripts/nfr01-product-list.js
+k6 run --summary-export nfr02-summary.json ./load-testing/scripts/nfr02-product-flow.js
 ```
+
+| Chỉ số k6 | Tiêu chí đạt |
+| --- | --- |
+| `nfr01_request_under_200ms` | Ít nhất 95% tổng số request nhận được phản hồi trong dưới 200 ms |
+| `nfr01_request_failed` | Dưới 1% tổng số request bị lỗi HTTP hoặc sai nội dung |
+| `nfr02_flow_under_1500ms` | Ít nhất 95% lượt thành công dưới 1.500 ms |
+| `nfr02_flow_failed` | Dưới 1% lượt có ít nhất một bước lỗi |
+
+Xem thêm `http_req_duration` và `nfr02_flow_duration` để lấy p95. k6 trả mã thoát 99 nếu có tiêu chí tải không đạt. Kết quả dùng trong Chương 5 nằm trong [thư mục results](results/). Dừng Shopizer bằng Ctrl+C ở terminal chạy Java.
