@@ -1,0 +1,10 @@
+run_id=nfr02-lan-run3
+java_pid=20105
+monitor_start_utc=2026-11-27T13:31:34Z
+sampling_interval_seconds=1
+timezone=UTC
+java_cpu_scale=percent_of_all_vm_cpus_pidstat_I
+memory_units=KiB
+monitor_end_utc=2026-11-27T13:37:43Z
+stop_reason=operator_ctrl_c
+monitor_exit_code=0

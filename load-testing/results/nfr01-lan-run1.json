@@ -1,0 +1,160 @@
+{
+    "metrics": {
+        "vus_max": {
+            "value": 100,
+            "min": 100,
+            "max": 100
+        },
+        "http_req_failed": {
+            "passes": 0,
+            "fails": 5641,
+            "value": 0
+        },
+        "nfr01_request_failed{phase:steady}": {
+            "passes": 0,
+            "fails": 5122,
+            "thresholds": {
+                "rate<0.01": false
+            },
+            "value": 0
+        },
+        "nfr01_request_under_500ms": {
+            "passes": 2216,
+            "fails": 2906,
+            "value": 0.43264349863334634
+        },
+        "http_req_waiting": {
+            "avg": 455.30149423861025,
+            "min": 92.4071,
+            "med": 473.6587,
+            "max": 1396.5438,
+            "p(90)": 557.2273,
+            "p(95)": 583.3695
+        },
+        "iteration_duration": {
+            "avg": 3485.1677177805323,
+            "min": 3096.9367,
+            "med": 3504.28,
+            "max": 4402.3823,
+            "p(90)": 3590.8542,
+            "p(95)": 3621.0585
+        },
+        "http_reqs": {
+            "count": 5641,
+            "rate": 26.435151747188055
+        },
+        "http_req_connecting": {
+            "max": 5.8311,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.02418299946817939,
+            "min": 0,
+            "med": 0
+        },
+        "http_req_receiving": {
+            "p(95)": 67.3971,
+            "avg": 28.985080056727558,
+            "min": 1.1526,
+            "med": 25.0755,
+            "max": 187.4402,
+            "p(90)": 56.4615
+        },
+        "checks": {
+            "passes": 11282,
+            "fails": 0,
+            "value": 1
+        },
+        "nfr01_request_failed": {
+            "passes": 0,
+            "fails": 5122,
+            "value": 0
+        },
+        "http_req_tls_handshaking": {
+            "avg": 0,
+            "min": 0,
+            "med": 0,
+            "max": 0,
+            "p(90)": 0,
+            "p(95)": 0
+        },
+        "data_sent": {
+            "rate": 4044.578217319772,
+            "count": 863073
+        },
+        "http_req_duration{expected_response:true}": {
+            "avg": 484.28689352951625,
+            "min": 96.6606,
+            "med": 503.5789,
+            "max": 1401.7155,
+            "p(90)": 589.9698,
+            "p(95)": 620.7123
+        },
+        "http_req_sending": {
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.0003192341783371743,
+            "min": 0,
+            "med": 0,
+            "max": 0.9473
+        },
+        "nfr01_request_under_500ms{phase:steady}": {
+            "passes": 2216,
+            "fails": 2906,
+            "thresholds": {
+                "rate>=0.95": true
+            },
+            "value": 0.43264349863334634
+        },
+        "vus": {
+            "value": 13,
+            "min": 3,
+            "max": 100
+        },
+        "data_received": {
+            "count": 208395463,
+            "rate": 976593.8109963683
+        },
+        "http_req_blocked": {
+            "max": 6.2055,
+            "p(90)": 0,
+            "p(95)": 0,
+            "avg": 0.025057330260592082,
+            "min": 0,
+            "med": 0
+        },
+        "http_req_duration": {
+            "min": 96.6606,
+            "med": 503.5789,
+            "max": 1401.7155,
+            "p(90)": 589.9698,
+            "p(95)": 620.7123,
+            "avg": 484.28689352951625
+        },
+        "iterations": {
+            "count": 5641,
+            "rate": 26.435151747188055
+        }
+    },
+    "root_group": {
+        "name": "",
+        "path": "",
+        "id": "d41d8cd98f00b204e9800998ecf8427e",
+        "groups": {},
+        "checks": {
+            "List: HTTP 200": {
+                "name": "List: HTTP 200",
+                "path": "::List: HTTP 200",
+                "id": "7c3da062c7fa901a4548484115ca19bd",
+                "passes": 5641,
+                "fails": 0
+            },
+            "List: JSON contains a full page of products": {
+                "id": "5cca71a0ea843985da1521bd8f421ab2",
+                "passes": 5641,
+                "fails": 0,
+                "name": "List: JSON contains a full page of products",
+                "path": "::List: JSON contains a full page of products"
+            }
+        }
+    }
+}
